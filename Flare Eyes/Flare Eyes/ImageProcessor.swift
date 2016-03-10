@@ -20,6 +20,7 @@ class ImageProcessor: NSObject {
     
     //TODO : change to array of CGPoints for more speed
     func drawLensFlare(image : UIImage, atPoint point : CGPoint) -> UIImage? {
+
         
         let rect = CGRectMake(0, 0, image.size.width, image.size.height)
         
@@ -28,6 +29,10 @@ class ImageProcessor: NSObject {
         //calculate points for lens flare
         
         UIGraphicsBeginImageContext(image.size)
+        let context = UIGraphicsGetCurrentContext()
+        
+        //clip
+        CGContextClipToRect(context, rect)
         
         image.drawInRect(rect)
         
@@ -63,13 +68,9 @@ class ImageProcessor: NSObject {
         //CGContextRotateCTM(context, CGFloat(M_PI_2))
         //CGContextTranslateCTM(context, -image.size.width/2, -image.size.height/2)
         
-        
         image.drawInRect(rect)
         
         var rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
-        
-        //clip
-        CGContextClipToRect(context, rect)
         
         UIGraphicsEndImageContext()
         
